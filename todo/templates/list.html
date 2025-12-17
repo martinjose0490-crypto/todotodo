@@ -1,0 +1,24 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    <a href="{% url 'add_todo' %}" class="btn btn-add">+ Add New To-Do</a>
+
+    <div id="todo-list">
+        {% for todo in todos %}
+        <div class="todo-item">
+            <div class="todo-info">
+                <h3>{{ todo.subject }}</h3>
+                <p>{{ todo.notes }}</p>
+            </div>
+            <div class="actions">
+                <form action="{% url 'delete_todo' todo.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-delete" onclick="return confirm('Delete this?')">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <p style="text-align:center; color:#999;">No tasks yet.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
